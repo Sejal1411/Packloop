@@ -21,11 +21,6 @@ import { addFundsToMCPWallet,
     getWalletBalance,
 } from '../controllers/mcp/wallet.controller.js';
 
-import { sendNotification,
-    getNotification
-} from '../controllers/mcp/notification.controller.js';
-
-
 const router = express.Router();
 
 // Dashboard
@@ -48,6 +43,5 @@ router.post('/wallet/transfer', transferToPartner);
 router.post('/orders/:orderId/assign', assignOrder);
 router.post('/orders/auto-assign', autoAssignOrder);
 router.post('/orders/partner/:partnerId', getOrdersByPartners);
-// router.get('/orders/reports', getOrderReport);
 
 export default router;

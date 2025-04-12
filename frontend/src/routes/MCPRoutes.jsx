@@ -1,24 +1,24 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import MCPDashboard from '../mcp/pages/Dashboard';
-// import PartnerPage from '../mcp/pages/Partner'; 
+import McpForm from '../mcp/pages/McpForm';
+import McpDashboard from '../mcp/pages/Dashboard';
+import PartnerPage from '../mcp/pages/Partner'; 
 import Orders from '../mcp/pages/Orders';         
-// import Wallet from '../mcp/pages/Wallet';          
-// import Notifications from '../mcp/pages/Notifications';
-// import Reports from '../mcp/pages/Reports';      
+import Wallet from '../mcp/pages/Wallet';          
 
 const MCPRoutes = () => {
   return (
     <Routes>
-      <Route path="/dashboard" element={<MCPDashboard />} />
-      {/* <Route path="/partners" element={<PartnerPage />} /> */}
-      <Route path="/orders" element={<Orders />} />
-      {/* <Route path="/wallet" element={<Wallet />} /> */}
-      {/* <Route path="/notifications" element={<Notifications />} /> */}
-      {/* <Route path="/reports" element={<Reports />} /> */}
-      {/* fallback route redirects to dashboard */}
-      <Route path="*" element={<Navigate to="/dashboard" />} />
+      {/* Show McpForm when user goes to /mcp explicitly */}
+      <Route path="/" element={<McpForm />} /> 
+      <Route path="dashboard" element={<McpDashboard />} />
+      <Route path="partners" element={<PartnerPage />} />
+      <Route path="orders" element={<Orders />} />
+      <Route path="wallet" element={<Wallet />} />
+
+      {/* fallback route */}
+      <Route path="*" element={<Navigate to="/mcp/dashboard" replace />} />
     </Routes>
   );
 };

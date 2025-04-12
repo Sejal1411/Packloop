@@ -22,7 +22,7 @@ export const getAllPartners = async (req, res) => {
 // 2. Add Pickup Partner
 export const addPartner = async (req, res) => {
   try {
-    const { name, phone, email, password, commissionRate, paymentType } = req.body;
+    const { name, phone, email, password, commissionRate, paymentType, age } = req.body;
     const mcpId = req.user.id; // from auth middleware
   
     const existing = await User.findOne({ phone });
@@ -43,6 +43,7 @@ export const addPartner = async (req, res) => {
       mcpId,
       commissionRate,
       paymentType,
+      age,
       status: 'active',
     });
   

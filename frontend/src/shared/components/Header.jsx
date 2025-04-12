@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 
 const Header = () => {
   return (
@@ -13,24 +14,28 @@ const Header = () => {
           </Link>
         </Typography>
 
-        {/* Tabs (can be buttons or Links) */}
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button color="inherit" component={Link} to="/mcp/dashboard">
-            Dashboard
-          </Button>
-          <Button color="inherit" component={Link} to="/mcp/wallet">
-            Wallet
-          </Button>
-          <Button color="inherit" component={Link} to="/mcp/orders">
-            Orders
-          </Button>
-          <Button color="inherit" component={Link} to="/mcp/partners">
-            Partners
-          </Button>
-          <Button color="inherit" component={Link} to="/mcp/notifications">
-            Notifications
-          </Button>
-        </Box>
+        {/* Show only when signed in */}
+      
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+       {['dashboard', 'wallet', 'orders', 'partners', 'notifications'].map((item) => (
+      <Button
+        key={item}
+        color="inherit"
+        component={Link}
+        to={`/mcp/${item}`}
+        sx={{ textTransform: 'capitalize' }}
+      >
+        {item}
+      </Button>
+      ))}
+       <UserButton />
+      </Box>
+
+
+  <SignedOut>
+    <Box sx={{ marginLeft: 'auto' }} />
+  </SignedOut>
+
       </Toolbar>
     </AppBar>
   );

@@ -1,7 +1,7 @@
 // pages/Wallet.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, List, ListItem, ListItemText, Divider } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import WalletCard from '../components/WalletCard';
 
 const Wallet = () => {
@@ -12,8 +12,8 @@ const Wallet = () => {
     try {
       const res = await axios.get('/api/mcp/wallet');
       setBalance(res.data.walletBalance);
-    } catch (error) {
-      console.error('Error fetching wallet data:', error);
+    } catch (err) {
+      console.error('Error fetching wallet data:', err);
     }
   };
 
@@ -21,35 +21,30 @@ const Wallet = () => {
     try {
       const res = await axios.get('/api/mcp/wallet/transactions');
       setTransactions(res.data.transactions || []);
-    } catch (error) {
-      console.error('Error fetching transactions:', error);
+    } catch (err) {
+      console.error('Error fetching transactions:', err);
     }
   };
 
   const handleAddFunds = async (amount, method) => {
     try {
-      await axios.post('/api/mcp/wallet/add', {
-        amount,
-        paymentMethod: method || 'UPI',
-      });
+      await axios.post('/api/mcp/wallet/add', { amount, paymentMethod: method || 'UPI' });
       fetchWallet();
-    } catch (error) {
-      console.error('Error adding funds:', error);
+      fetchTransactions();
+    } catch (err) {
+      console.error('Error adding funds:', err);
     }
   };
-  
+
   const handleTransferFunds = async (amount, partnerId) => {
     try {
-      await axios.post('/api/mcp/wallet/transfer', {
-        amount,
-        partnerId,
-      });
+      await axios.post('/api/mcp/wallet/transfer', { amount, partnerId });
       fetchWallet();
-    } catch (error) {
-      console.error('Error transferring funds:', error);
+      fetchTransactions();
+    } catch (err) {
+      console.error('Error transferring funds:', err);
     }
   };
-  
 
   useEffect(() => {
     fetchWallet();
@@ -57,34 +52,18 @@ const Wallet = () => {
   }, []);
 
   return (
-    <Container>
+    <Container sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         Wallet Management
       </Typography>
 
       <WalletCard
         balance={balance}
+        transactions={transactions}
         onAddFunds={handleAddFunds}
         onDistributeFunds={handleTransferFunds}
+        currentUserId="mcp123" // Replace with actual MCP ID from auth context
       />
-
-      <Typography variant="h6" gutterBottom>
-        Transaction History
-      </Typography>
-
-      <List>
-        {transactions.map((txn) => (
-          <React.Fragment key={txn._id}>
-            <ListItem>
-              <ListItemText
-                primary={`₹${txn.amount} - ${txn.type}`}
-                secondary={new Date(txn.createdAt).toLocaleString()}
-              />
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        ))}
-      </List>
     </Container>
   );
 };

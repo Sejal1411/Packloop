@@ -12,7 +12,10 @@ import { authenticate, authorize } from './src/middleware/auth.js';
 const app = express();
 const port = 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
 
 // mongoose.connect(process.env.MONGO_URI, {
@@ -23,7 +26,7 @@ app.use(express.json());
 // .catch((err) => console.log('MongoDB Error:', err));
 
 // User routes
-app.use('/api/partner', authenticate, authorize('partner'), partnerRoutes);
+app.use('/api/partner', authenticate, partnerRoutes);
 app.use('/api/mcp', authenticate, authorize('mcp'), mcpRoutes);
 
 const server = createServer(app);

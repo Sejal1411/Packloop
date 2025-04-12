@@ -1,5 +1,7 @@
 // middleware/authenticate.js
 import jwt from 'jsonwebtoken';
+import dotnev from 'dotenv';
+dotnev.config();
 
 export const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;

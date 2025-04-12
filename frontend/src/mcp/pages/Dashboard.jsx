@@ -2,10 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
 import axios from 'axios';
 
-const MCPDashboard = () => {
+// Reusable StatCard component
+const StatCard = ({ title, mainValue, breakdown = [] }) => (
+  <Grid item xs={12} md={6}>
+    <Card sx={{ width: 400, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <CardContent>
+        <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="h5" gutterBottom>
+          {mainValue}
+        </Typography>
+        {breakdown.map((item, index) => (
+          <Typography key={index} variant="body2">
+            {item.label}: {item.value}
+          </Typography>
+        ))}
+      </CardContent>
+    </Card>
+  </Grid>
+);
+
+const McpDashboard = () => {
   const [stats, setStats] = useState({
-    walletBalance: 0,
-    totalEarnings: 0,
+    totalBalance: 0,
     partners: { total: 0, active: 0, inactive: 0 },
     orders: { total: 0, completed: 0, pending: 0 },
   });
@@ -24,8 +44,7 @@ const MCPDashboard = () => {
   }, []);
 
   const {
-    walletBalance = 0,
-    totalEarnings = 0,
+    totalBalance = 0,
     partners = {},
     orders = {},
   } = stats;
@@ -44,66 +63,34 @@ const MCPDashboard = () => {
 
   return (
     <div style={{ padding: '16px' }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         MCP Dashboard
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Wallet Balance & Earnings */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                Wallet Balance
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                ₹ {walletBalance.toLocaleString()}
-              </Typography>
-
-              {/* <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                Total Earnings
-              </Typography> */}
-              {/* <Typography variant="h6">₹ {totalEarnings.toLocaleString()}</Typography> */}
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Total Partners + Breakdown */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                Total Partners
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                {totalPartners}
-              </Typography>
-
-              <Typography variant="body2">Active: {activePartners}</Typography>
-              <Typography variant="body2">Inactive: {inactivePartners}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Total Orders + Breakdown */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                Total Orders
-              </Typography>
-              <Typography variant="h5" gutterBottom>
-                {totalOrders}
-              </Typography>
-
-              <Typography variant="body2">Completed: {completedOrders}</Typography>
-              <Typography variant="body2">Pending: {pendingOrders}</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        <StatCard
+          title="Total Balance"
+          mainValue={`₹ ${totalBalance.toLocaleString()}`}
+        />
+        <StatCard
+          title="Total Partners"
+          mainValue={totalPartners}
+          breakdown={[
+            { label: 'Active', value: activePartners },
+            { label: 'Inactive', value: inactivePartners },
+          ]}
+        />
+        <StatCard
+          title="Total Orders"
+          mainValue={totalOrders}
+          breakdown={[
+            { label: 'Completed', value: completedOrders },
+            { label: 'Pending', value: pendingOrders },
+          ]}
+        />
       </Grid>
     </div>
   );
 };
 
-export default MCPDashboard;
+export default McpDashboard;

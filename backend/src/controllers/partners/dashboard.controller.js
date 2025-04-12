@@ -21,6 +21,8 @@ export const getPartnerDashboard = async (req, res) => {
       completedOrders,
       totalEarnings
     });
+    console.log('Authenticated user:', req.user);
+
   } catch (error) {
     res.status(500).json({ message: 'Dashboard error', error: error.message });
   }
