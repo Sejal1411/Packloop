@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import { createServer } from 'http';
 import cors from 'cors';
 import mongoose from 'mongoose';
-
+import dotenv from 'dotenv';
 import partnerRoutes from './src/routes/partner.routes.js';
 import mcpRoutes from './src/routes/mcp.routes.js';
 
@@ -11,17 +11,16 @@ import { authenticate, authorize } from './src/middleware/auth.js';
 
 const app = express();
 const port = 5000;
+dotenv.config();
 
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
 }));
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB Connected'))
 .catch((err) => console.log('MongoDB Error:', err));
 
@@ -32,7 +31,7 @@ app.use('/api/mcp', authenticate, authorize('mcp'), mcpRoutes);
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: '*',
+      origin: '*',
     },
 });
 

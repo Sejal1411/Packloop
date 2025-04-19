@@ -16,9 +16,6 @@ const Orders = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [formData, setFormData] = useState({ orderId: '', partnerId: '', partnerName: '' });
 
-  const [openReportDialog, setOpenReportDialog] = useState(false);
-  const [reportType, setReportType] = useState('');
-
   const fetchOrdersAndPartners = async () => {
     setLoading(true);
     try {

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { SignIn, SignedIn } from "@clerk/clerk-react";
-import { Typography, Box, TextField } from "@mui/material";
-import PartnerRedirector from "./PartnerRedirector";
+import React from "react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+import { Typography, Box, Button } from "@mui/material";
 
 const PartnerSignin = () => {
-  const [name, setName] = useState("");
-
   return (
     <Box
       display="flex"
@@ -14,23 +16,26 @@ const PartnerSignin = () => {
       justifyContent="center"
       height="100vh"
       gap={3}
-    >
-      <Typography variant="h5">Please sign in to continue</Typography>
+     >
+      {/* Title */}
+      <Typography variant="h5">
+        <SignedOut>Partner Sign In</SignedOut>
+        <SignedIn>Welcome Partner!</SignedIn>
+      </Typography>
 
-      {/* Optional name field */}
-      <TextField
-        label="Your Name"
-        variant="outlined"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        sx={{ width: 300 }}
-      />
+      {/* Clerk Sign In Button */}
+      <SignedOut>
+        <SignInButton mode="modal" redirectUrl="/partner/dashboard">
+          <Button variant="contained" color="primary">
+            Sign In
+          </Button>
+        </SignInButton>
+      </SignedOut>
 
-      {/* Clerk Sign-in component */}
-      <SignIn path="/partner/signin" redirectUrl="/partner/dashboard" />
-
-      {/* Handles redirect after sign-in */}
-      <PartnerRedirector />
+      {/* Clerk User Profile Button */}
+      <SignedIn>
+        <UserButton/>
+      </SignedIn>
     </Box>
   );
 };

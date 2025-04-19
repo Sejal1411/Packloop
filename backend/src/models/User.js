@@ -3,7 +3,11 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  phone: { type: String },
+  email: { type: String, unique: true, required: true }, 
+  phone: { type: String }, 
+  contact: { type: String },
+  education: { type: String },
+  aadhar: { type: String }, 
   password: { type: String, required: true },
   role: {
     type: String,
@@ -13,10 +17,10 @@ const userSchema = new mongoose.Schema({
   isApproved: {
     type: Boolean,
     default: function () {
-      return this.role === 'partner'; // auto-approved for partners, pending for MCP
+      return this.role === 'partner'; // MCPs need approval
     },
   },
-  inviteToken: { type: String }, // for MCP invite-based logic
+  inviteToken: { type: String }, // for future MCP invite-based logic
   createdAt: { type: Date, default: Date.now },
 });
 

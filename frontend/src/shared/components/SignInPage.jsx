@@ -16,10 +16,10 @@ export default function SignIn() {
         </Typography>
         <Stack spacing={2} direction="row" justifyContent="center" mt={4}>
           <Button variant="contained" onClick={() => navigate("/mcp")}>
-            I am an MCP
+            Register as MCP
           </Button>
           <Button variant="outlined" onClick={() => navigate("/partner")}>
-            I am a Partner
+            Register as Partner
           </Button>
         </Stack>
       </SignedOut>

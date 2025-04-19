@@ -21,7 +21,12 @@ import { addFundsToMCPWallet,
     getWalletBalance,
 } from '../controllers/mcp/wallet.controller.js';
 
+import { registerMCP } from '../controllers/mcp/mcpAuth.controller.js'; // adjust path as needed
+
 const router = express.Router();
+
+// MCP Registration
+router.post('/register', registerMCP);
 
 // Dashboard
 router.get('/dashboard', getDashboardStats);
