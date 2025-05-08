@@ -26,7 +26,7 @@ const McpForm = () => {
     });
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/mcp/register", {
+      const res = await fetch("http://localhost:5000/api/mcp/register", {
         method: "POST",
         body: formData,
       });

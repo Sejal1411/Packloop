@@ -1,14 +1,92 @@
 import mongoose from 'mongoose';
 
 const orderSchema = new mongoose.Schema({
-    customerName: String,
-    pickupAddress: String,
-    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Pickup Partner
-    assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // MCP
-    status: { type: String, enum: ['pending', 'completed', 'In prgress', 'cancelled'], default: 'pending' },
-    createdAt: { type: Date, default: Date.now },
-    completedAt: { type: Date },
+    mcpId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+
+    pickupPartnerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+
+    status: {
+        type: String,
+        enum: ['PENDING', 'ASSIGNED', 'COMPLETED', 'IN PROGRESS', 'CANCELLED'],
+        default: 'PENDING',
+    },
+
+    amount: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+
+    commission: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+
+    scheduledTime: {
+        type: Date,
+        required: true,
+    },
+
+    completedTime: Date,
+
+    customerNotes: String,
+
+    partnerNotes: String,
+
+    statusHistory: [{
+        status: {
+            type: ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']
+        },
+        timestamp: {
+            type: Date,
+            default: Date.now
+        },
+        note: String
+    }],
+
+    paymentStaus: {
+        type: String,
+        enum: ['PENDING', 'COMPLETED', 'FAILED'],
+        default: 'PENDING',
+
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+
+    upDatedAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
+
+orderSchema.index({ mcpId: 1, status: 1});
+orderSchema.index({ pickupPartnerId: 1, status: 1 });
+orderSchema.index({ customerId: 1 });
+orderSchema.index({ scheduledTime: 1 });
+orderSchema.index({ status: 1, scheduledTime: 1 });
+
+orderSchema.pre('save', function(next) {
+    this.upDatedAt = Date.now();
+    next();
+});
+
+// orderSchema.methods.updateStatus  = 
+
+
+
+
+
 
 const Order = mongoose.model('Order', orderSchema);
 export default Order;

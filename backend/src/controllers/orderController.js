@@ -4,20 +4,20 @@ import Transaction from '../../models/Transaction.js';
 
 export const assignOrder = async (req, res) => {
     try {
-        const { orderId, partnerId } = req.body;
+      const { orderId, partnerId } = req.body;
 
         // Check if order exists
-        const order = await Order.findByIdAndUpdate(orderId, {
-          assignedTo: partnerId,
-          assignedBy: req.user._id,
-          status: "assigned"
+      const order = await Order.findByIdAndUpdate(orderId, {
+        assignedTo: partnerId,
+        assignedBy: req.user._id,
+        status: "assigned"
         }, { new: true });
         
-        if (!order) {
-          return res.status(404).json({ message: 'Order not found' });
-        }
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
         
-        res.status(200).json({ message: 'Order assigned successfully', order });
+      res.status(200).json({ message: 'Order assigned successfully', order });
     } catch (error) {
         console.error('Error assigning order:', error);
         res.status(500).json({ message: 'Failed to assign order' });

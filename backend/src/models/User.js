@@ -2,38 +2,81 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, unique: true, required: true }, 
-  phone: { type: String }, 
-  contact: { type: String },
-  education: { type: String },
-  aadhar: { type: String }, 
-  password: { type: String, required: true },
-  role: {
+  name: {
     type: String,
-    enum: ['mcp', 'partner'],
     required: true,
   },
-  isApproved: {
-    type: Boolean,
-    default: function () {
-      return this.role === 'partner'; // MCPs need approval
-    },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
   },
-  inviteToken: { type: String }, // for future MCP invite-based logic
-  createdAt: { type: Date, default: Date.now },
+
+  password: {
+    type: String,
+    required: true,
+  },
+
+  phone: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
+  role: {
+    type: String,
+    enum: ['MCP', "PICKUP_PARTNER"],
+    required: true,
+  },
+
+  status: {
+    type: String,
+    enum: ['ACTIVE', 'INACTIVE'],
+    default: 'ACTIVE',
+  },
+
+  commissionRate: {
+    type: Number,
+    required: function() {
+      return this.role === 'PICKUP_PARTNER';
+    },
+    default: 0
+  },
+
+  deviceToken: String,
+  
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-// Hash password before saving
+// Hash password 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch(error) {
+    next(error);
+  }
+  
 });
 
-// Method to compare passwords
+// compare passwords
 userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-export default mongoose.model('User', userSchema);
+const User =  mongoose.model('User', userSchema);
+module.exports = User;
