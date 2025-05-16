@@ -81,12 +81,30 @@ orderSchema.pre('save', function(next) {
     next();
 });
 
-// orderSchema.methods.updateStatus  = 
+orderSchema.methods.updateStatus  = function(newStatus, note = '') {
+    this.status = newStatus;
+    this.statusHistory.push({
+        status: newStatus,
+        note: note
+    });
 
+    if(newStatus === 'COMPLETED') {
+        this.completedTime = Date.now();
+    }
 
+    return this.save();
+}
 
+orderSchema.methods.assignPartner = function(partnerId) {
+    this.pickupPartnerId = partnerId;
+    this.status = 'ASSIGNED';
+    this.statusHistory.push({
+        status: 'ASSIGNED',
+        note: `Assigned to partner ${partnerId}`
+    });
 
-
+    return this.save();
+};
 
 const Order = mongoose.model('Order', orderSchema);
 export default Order;
