@@ -1,10 +1,50 @@
 import Order from '../../models/Order.js';
 import User from '../../models/User.js';
-import Transaction from '../../models/Transaction.js';
+import Wallet from '../../models/Wallet.js';
+import mongoose from 'mongoose';
 
+export const createOrder = async (req, res) => {
+    try {
+      const { 
+        customerId, 
+        amount,
+        scheduledTime,
+        customerNotes 
+      } = req.body;
+
+      // Validate MCP
+      const mcp = await User.findById(req.user.userId);
+      if(mcp.role !== 'MCP') {
+        return res.status(403).json({
+          message: 'Only MCPs can create orders'
+        });
+      }
+
+      // Calculate commission
+      const commission = amount * 0.01;
+
+      const order = new Order({
+        assignedTo: partnerId,
+        assignedBy: req.user._id,
+        status: "assigned"
+        }, { new: true });
+        
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+        
+      res.status(200).json({ message: 'Order assigned successfully', order });
+    } catch (error) {
+        console.error('Error assigning order:', error);
+        res.status(500).json({ message: 'Failed to assign order' });
+    }
+}
 export const assignOrder = async (req, res) => {
     try {
-      const { orderId, partnerId } = req.body;
+      const { 
+        orderId, 
+        partnerId 
+      } = req.body;
 
         // Check if order exists
       const order = await Order.findByIdAndUpdate(orderId, {

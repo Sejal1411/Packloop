@@ -7,6 +7,12 @@ const orderSchema = new mongoose.Schema({
         required: true,
     },
 
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+
     pickupPartnerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -36,14 +42,13 @@ const orderSchema = new mongoose.Schema({
     },
 
     completedTime: Date,
-
     customerNotes: String,
-
     partnerNotes: String,
 
     statusHistory: [{
         status: {
-            type: ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']
+            type: String,
+            enum: ['PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']
         },
         timestamp: {
             type: Date,
@@ -58,7 +63,7 @@ const orderSchema = new mongoose.Schema({
         default: 'PENDING',
 
     },
-
+    
     createdAt: {
         type: Date,
         default: Date.now,

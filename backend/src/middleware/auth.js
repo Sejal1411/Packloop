@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Verify JWT token middleware
-exports.verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     try {
         console.log('Verifying token...');
         const authHeader = req.header('Authorization');
@@ -26,6 +26,7 @@ exports.verifyToken = async (req, res, next) => {
         }
 
         console.log('Verifying token with JWT_SECRET...');
+        
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             console.log('Token decoded successfully:', decoded);
@@ -77,7 +78,7 @@ exports.verifyToken = async (req, res, next) => {
 };
 
 // Role-based access control middleware
-exports.authorize = (...roles) => {
+export const authorize = (...roles) => {
     return (req, res, next) => {
       console.log('User role:', req.user.role);
       console.log('Required roles:', roles);
