@@ -114,7 +114,7 @@ export const assignOrder = async (req, res) => {
     }
 }
 
-// 3. Update order status
+// Update order status
 exports.updateOrderStatus = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -186,7 +186,7 @@ exports.updateOrderStatus = async (req, res) => {
     }
 };
 
-// 4. Get orders with filters
+// Get orders with filters
 export const getOrders = async (req, res) => {
   try {
     const { status, startDate, endDate, page = 1, limit = 10 } = req.query;
@@ -224,7 +224,7 @@ export const getOrders = async (req, res) => {
   }
 };
 
-// 5. Get order details
+// Get order details
 export const getOrderDetails = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -265,7 +265,7 @@ export const getOrderDetails = async (req, res) => {
   }
 };
 
-// 5. Generate Daily or Weekly Report
+// Generate Daily or Weekly Report
 export const getOrderReport = async (req, res) => {
     try {
       const { startDate, endDate } = req.query; 

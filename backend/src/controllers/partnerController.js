@@ -2,7 +2,7 @@ import User from '../../models/User.js';
 import Wallet from '../../models/Wallet.js';
 import bcrypt from 'bcrypt';
 
-// 1. Get All Pickup Partners 
+// Get All Pickup Partners 
 export const getAllPartners = async (req, res) => {
   try {
     const partners = await User.find({ role: 'PICKUP_PARTNER' }); 
@@ -21,7 +21,7 @@ export const getAllPartners = async (req, res) => {
   }
 };
 
-// 2. Add a Pickup Partner
+// Add a Pickup Partner
 export const addPartner = async (req, res) => {
   console.log('Add partner request body:', req.body);
   let { name, email, password, phone, mcpId, commission = 0 } = req.body;
@@ -122,7 +122,7 @@ export const addPartner = async (req, res) => {
     }
   };
 
-  // 3. Delete Pickup Partner
+  // Delete Pickup Partner
   export const deletePartner = async (req, res) => {
     const { id } = req.params;
 
@@ -141,7 +141,7 @@ export const addPartner = async (req, res) => {
   };
   
 
-  // 4. Update Partner Status or Commission
+  // Update Partner Status or Commission
   export const updatePartnerRole = async (req, res) => {
     const { id } = req.params;
     const { active, commission } = req.body;

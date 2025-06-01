@@ -110,7 +110,6 @@ walletSchema.methods.addTransaction = async function(transactionData) {
     }
 };
 
-
 // Update transaction
 walletSchema.methods.updateTransactionStatus = async function(transactionId, newStatus) {
     const transaction = this.transaction.id(transactionId);
