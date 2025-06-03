@@ -61,3 +61,37 @@ export const updatePickupStatus = async (req, res) => {
     }
 }
 
+export const getMyPickups = async (req, res) => {
+    try {
+        const pickups = await Pickup.find({ assignedTo: req.user.id }).sort({ date: -1});
+        res.status(200).json(pickups);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching pickups', error: err.message});
+    }
+};
+
+export const filterPickups = async (req, res) => {
+    const { status, partnerId, startDate, endDate } = req.query;
+
+    let filter = {};
+
+    if (status) filter.status = status;
+    if (partnerId) filter.assignedTo = partnerId;
+    if (startDate && endDate) {
+        filter.date = {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate)
+        };
+    }
+
+    try {
+        const pickups = await Pickup.find(filter)
+        .populate('assignedTo', 'name email')
+        .sort({ date: -1});
+
+        res.status(200).json(pickups);
+    } catch (err) {
+        res.status(500).json({ message: 'Error filering pickups', error: err.message});
+    }
+};
+

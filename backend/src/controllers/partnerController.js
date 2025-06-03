@@ -118,7 +118,6 @@ export const addPartner = async (req, res) => {
           error: err.message
         })
       }
-
     }
   };
 

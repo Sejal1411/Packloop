@@ -118,7 +118,6 @@ export const getWalletBalance = async (req, res) => {
 
   //  Transfer funds to pickup partner
   export const transferToPartner = async (req, res) => {
-
     const session = await mongoose.startSession();
     session.startTransaction();
 
