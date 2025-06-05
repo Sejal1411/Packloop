@@ -57,16 +57,100 @@ const Home = () => {
                           to="/wallet"
                           className='block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-50' 
                         >
-                            <div>
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-green-100 rounded-full'>
+                                    <FiCreditCard className="h-6 w-6 text-green-600"/>
+                                </div>
                                 <div>
-                                    <FiCreditCard />
+                                    <h3 className='text-lg font-semibold'>Wallet</h3>
+                                    <p className='text-gray-600'>Manage your transactions</p>
                                 </div>
                             </div>
                         </Link>
 
+                        {user && user.role === 'MCP' && (
+                            <Link 
+                              to="/partners"
+                              className='block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover_bg-gray-50'
+                            >
+                                <div className='flex items-center gap-4'>
+                                    <div className='p-3 bg-purple-100 rounded-full'>
+                                        <FiUser className="h-6 w-6 text-purple-600"/>
+                                    </div>
+                                    <div>
+                                        <h3 className='text-lg font-semibold'>Partners</h3>
+                                        <p className='text-gray-600'>Mange your pickup partners</p>
+                                    </div>
+                                </div>
+                            </Link>
+                        )}
+
+                        {user && user.role === 'PICKUP_PARTNER' && (
+                            <Link
+                              to="/pickups"
+                              className='block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-50'
+                            >
+                              <div>
+                                <div>
+                                    <FiTruck className="h-6 w-6 text-yellow-600"/>
+                                </div>
+                                <div>
+                                    <h3 className='text-lg font-semibold'>Pickups</h3>
+                                    <p className='text-gray-500'>View and manage pickups</p>
+                                </div>
+                              </div>
+                            </Link>
+                        )}
+
+                        <Link
+                          to="/orders"
+                          className='block p-6 bg-white rounded-lg border border=gray-200 shadow-md hover:bg-gray-50'
+                        >
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-red-100 rounded-full'>
+                                    <FiPackage className="h-6 w-6 text-red-600"/>
+                                </div>
+                                <div>
+                                    <h3 className='text-lg font-semibold'>Orders</h3>
+                                    <p className='text-gray-600'>Track and manage orders</p>
+                                </div>
+                            </div>
+                        </Link>
+
+                        <a 
+                          href="mailto:support@mcpsystem.com"
+                          className='block p-6 bg-white rounded-lg border-gray-200 shadow-md hover:bg-gray-50'
+                        >
+                          <div>
+                            <div>
+                                <FiMail className="h-6 w-6 text-gray-600"/>
+                            </div>
+                            <div>
+                                <h3 className='text-lg font-semibold'>Support</h3>
+                                <p className='text-gray-600'>Contact our support team</p>
+                            </div>
+                          </div>
+                        </a>
+
+                        <Link
+                          to="/orders"
+                          className='block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-50'
+                        >
+                          <div className='flex items-center gap-4'>
+                            <div className='p-3 bg-red-100 rounded-full'>
+                                <FiPackage className="h-6 w-6 text-red-600"/>
+                            </div>
+                            <div>
+                                <h3 className='text-lg font-semibold'>Overview</h3>
+                                <p className='text-gray-600'>Track and manage orders</p>
+                            </div>
+                          </div>
+                        </Link>
                     </div>
                 </div>
             )}
         </div>
     )
 }
+
+export default Home;
