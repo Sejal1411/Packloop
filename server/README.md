@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# Packloop
-=======
 # MCP System Backend
 
 A robust backend system for the Material Collection Point (MCP) System that manages partners, pickups, orders, and wallet transactions.
@@ -70,7 +67,7 @@ server/
 2. **Set up environment variables**:
    Create a `.env` file in the root directory with the following variables:
    ```
-   PORT=4000 
+   PORT=5000
    MONGO_URI=mongodb://localhost:27017/mcp-system
    JWT_SECRET=your_jwt_secret
    ```
@@ -626,4 +623,3 @@ Models include:
 - Pickup: Scheduled material pickups
 - Order: Order processing
 - Transaction: Record of financial transactions
->>>>>>> f20006e (Initial commit)
