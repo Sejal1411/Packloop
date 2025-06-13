@@ -67,7 +67,7 @@ const App = () => {
               } />
               
               {/* Not found route */}
-              <Route path="*" element={<div className="p-4">Page not found - 404</div>} />
+              <Route path = "*" element={<div className="p-4">Page not found - 404</div>} />
             </Route>
           </Routes>
         </Suspense>

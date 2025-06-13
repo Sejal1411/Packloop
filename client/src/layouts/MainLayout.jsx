@@ -186,6 +186,7 @@ const MainLayout = () => {
                   >
                     Login
                   </Link>
+                  
                   <Link 
                     to="/register" 
                     className="block px-3 rounded-md text-base font-medium bg-green-600 text-white hover:bg-green-700 mx-3 my-2 py-2 text-center"
