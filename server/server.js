@@ -12,7 +12,6 @@ const walletRoutes = require('./routes/wallet');
 const pickupRoutes = require('./routes/pickup');
 const orderRoutes = require('./routes/order');
 
-
 // Middleware
 app.use(cors());
 app.use(express.json());
